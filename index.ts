@@ -61,7 +61,7 @@ function getRawTransaction(
   return recoveredTransaction;
 }
 
-let amt = LAMPORTS_PER_SOL * 0.001
+let amt = LAMPORTS_PER_SOL * 0.001 //change this value to the amount of SOL you want to be converted to WSOL
 convertSolToWsol(amt)
   .then(() => console.log("Conversion completed"))
   .catch((error) => console.error("Error:", error));
