@@ -1,0 +1,26 @@
+{
+  "name": "wrapsol",
+  "version": "1.0.0",
+  "description": "",
+  "main": "wrapsol.ts",
+  "author": "Ricardo McPherson",
+  "license": "MIT",
+  "scripts": {
+    "start": "ts-node index.ts",
+    "tsc": "tsc --noEmit",
+    "build": "tsc --build -clean"
+  },
+  "dependencies": {
+    "@solana/spl-token": "0.4.6",
+    "@solana/web3.js": "^1.91.4",
+    "bigint-buffer": "^1.1.5",
+    "bn.js": "^5.2.1",
+    "bs58": "^5.0.0",
+    "dotenv": "^16.4.5",
+    "ts-node": "^10.9.2"
+  },
+  "devDependencies": {
+    "@types/bn.js": "^5.1.5",
+    "typescript": "^5.3.3"
+  }
+}
