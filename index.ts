@@ -4,7 +4,6 @@ import { decode } from "bs58";
 import 'dotenv/config'
 
 const privateKey = process.env.PRIVATE_KEY != undefined ? process.env.PRIVATE_KEY : '';
-const rpcUrl = process.env.RPC_URL != undefined ? process.env.RPC_URL : '';
 const wallet = Keypair.fromSecretKey(decode(privateKey));
 const LAMPORTS_PER_SOL = 1000000000;
 async function convertSolToWsol(amount: number) {
@@ -62,11 +61,7 @@ function getRawTransaction(
   return recoveredTransaction;
 }
 
-<<<<<<< HEAD
 let amt = LAMPORTS_PER_SOL * 0.1 //change this value to the amount of SOL you want to be converted to WSOL
-=======
-let amt = LAMPORTS_PER_SOL * 0.001 //change this value to the amount of SOL you want to be converted to WSOL
->>>>>>> b171fe0ad9b439c6d61fbd46f2e37a7339ce115d
 convertSolToWsol(amt)
   .then(() => console.log("Conversion completed"))
   .catch((error) => console.error("Error:", error));

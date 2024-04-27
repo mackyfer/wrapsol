@@ -1,2 +1,1 @@
 PRIVATE_KEY=<your_wallet_private_key>
-RPC_URL=https://api.mainnet-beta.solana.com #or your custom rpc url
