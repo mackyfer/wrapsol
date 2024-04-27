@@ -1,5 +1,5 @@
-import { Connection, Keypair, SystemProgram, Transaction, VersionedTransaction } from "@solana/web3.js";
-import { NATIVE_MINT, createSyncNativeInstruction, createAssociatedTokenAccount } from "@solana/spl-token";
+import { Connection, Keypair,  SystemProgram, Transaction, VersionedTransaction, clusterApiUrl } from "@solana/web3.js";
+import { NATIVE_MINT, createSyncNativeInstruction, ASSOCIATED_TOKEN_PROGRAM_ID, getOrCreateAssociatedTokenAccount } from "@solana/spl-token";
 import { decode } from "bs58";
 import 'dotenv/config'
 
@@ -8,25 +8,26 @@ const rpcUrl = process.env.RPC_URL != undefined ? process.env.RPC_URL : '';
 const wallet = Keypair.fromSecretKey(decode(privateKey));
 const LAMPORTS_PER_SOL = 1000000000;
 async function convertSolToWsol(amount: number) {
-  const connection = new Connection(rpcUrl);
+  const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
+ 
   const latestBlockhash = await connection.getLatestBlockhash({
-    commitment: 'finalized',
+    commitment: 'confirmed',
   });
 
-  let associatedTokenAccount = await createAssociatedTokenAccount(
+  let associatedTokenAccount = await getOrCreateAssociatedTokenAccount(
     connection,
     wallet,
     NATIVE_MINT,
-    wallet.publicKey,
-  );
+    wallet.publicKey
+  )
 
   let transaction = new Transaction().add(
     SystemProgram.transfer({
       fromPubkey: wallet.publicKey,
-      toPubkey: associatedTokenAccount,
+      toPubkey: associatedTokenAccount.address,
       lamports: amount,
     }),
-    createSyncNativeInstruction(associatedTokenAccount)
+    createSyncNativeInstruction(associatedTokenAccount.address)
   );
 
   transaction.recentBlockhash = latestBlockhash.blockhash
@@ -61,7 +62,7 @@ function getRawTransaction(
   return recoveredTransaction;
 }
 
-let amt = LAMPORTS_PER_SOL * 0.001
+let amt = LAMPORTS_PER_SOL * 0.1 //change this value to the amount of SOL you want to be converted to WSOL
 convertSolToWsol(amt)
   .then(() => console.log("Conversion completed"))
   .catch((error) => console.error("Error:", error));
